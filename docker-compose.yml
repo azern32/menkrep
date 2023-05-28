@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  mc:
+    container_name: mc
+    image: itzg/minecraft-server
+    ports:
+      - 25565:25565
+    env_file:
+    - mc.env
+    # environment:
+    #   EULA: "TRUE"
+    tty: true
+    stdin_open: true
+    restart: unless-stopped
+    volumes:
+      # attach a directory relative to the directory containing this compose file
+      - ./minecraft-data:/data
+      - ./minecraft-data/plugins:/plugins
+
+  duckdns:
+    image: lscr.io/linuxserver/duckdns:latest
+    container_name: duckdns
+    env_file:
+    - duckdns.env
+    volumes:
+      - ./duckdns:/config #optional
+    restart: unless-stopped
